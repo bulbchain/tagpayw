@@ -1,0 +1,6 @@
+{
+  "name": "TagPay",
+  "description": "Launch creator coins on Solana pump.fun with 100% locked creator fees. Connect Phantom wallet and route atomic tips to any social handle.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

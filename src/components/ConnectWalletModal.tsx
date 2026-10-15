@@ -88,8 +88,9 @@ export const ConnectWalletModal: React.FC<ConnectWalletModalProps> = ({
   const handleConnectPhantom = async () => {
     setConnecting(true);
     try {
-      await connectPhantom();
-      onClose();
+      if (await connectPhantom()) {
+        onClose();
+      }
     } finally {
       setConnecting(false);
     }
@@ -103,8 +104,9 @@ export const ConnectWalletModal: React.FC<ConnectWalletModalProps> = ({
     }
     setConnecting(true);
     try {
-      await connectWallet(name);
-      onClose();
+      if (await connectWallet(name)) {
+        onClose();
+      }
     } finally {
       setConnecting(false);
     }

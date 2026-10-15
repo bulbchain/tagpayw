@@ -27,7 +27,7 @@ export const ClaimView: React.FC = () => {
   const [showClaimModal, setShowClaimModal] = useState<boolean>(false);
   const [claimStage, setClaimStage] = useState<'confirm' | 'signing' | 'success'>('confirm');
   const [recipientWallet, setRecipientWallet] = useState<string>(
-    walletConnected ? walletAddress : '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU'
+    walletConnected ? walletAddress : ''
   );
   const [claimedReceipt, setClaimedReceipt] = useState<{ amountSol: string; amountUsd: string; txHash: string } | null>(null);
 
@@ -320,6 +320,7 @@ export const ClaimView: React.FC = () => {
                 <button
                   type="button"
                   onClick={executeClaim}
+                  disabled={!recipientWallet.trim()}
                   className="w-full py-3.5 bg-[#00f5b8] hover:bg-[#5cffd2] text-[#010a12] font-black uppercase rounded-xl transition-all shadow-[0_8px_20px_rgba(0,245,184,0.35)] cursor-pointer"
                 >
                   CONFIRM & DISPATCH ON SOLANA →

@@ -31,8 +31,8 @@ interface AppContextType {
   walletBalanceSol: number;
   walletProvider: string;
   isPhantomInstalled: boolean;
-  connectPhantom: () => Promise<void>;
-  connectWallet: (providerName?: string) => Promise<void>;
+  connectPhantom: () => Promise<boolean>;
+  connectWallet: (providerName?: string) => Promise<boolean>;
   disconnectWallet: () => void;
 
   // Data
@@ -123,6 +123,14 @@ const generateSolanaAddress = (prefix = 'Sol'): string => {
   return result;
 };
 
+interface InjectedSolanaProvider {
+  isPhantom?: boolean;
+  isSolflare?: boolean;
+  isBackpack?: boolean;
+  connect?: () => Promise<{ publicKey?: { toString: () => string } }>;
+  disconnect?: () => Promise<void>;
+}
+
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [activeTab, setActiveTab] = useState<ActiveTab>('tag-for-@');
 
@@ -143,32 +151,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   }, []);
 
   // Wallet State
-  const [walletConnected, setWalletConnected] = useState<boolean>(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEYS.WALLET);
-      return saved ? JSON.parse(saved).connected : false;
-    } catch {
-      return false;
-    }
-  });
-
-  const [walletAddress, setWalletAddress] = useState<string>(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEYS.WALLET);
-      return saved ? JSON.parse(saved).address : '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU';
-    } catch {
-      return '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU';
-    }
-  });
-
-  const [walletProvider, setWalletProvider] = useState<string>(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEYS.WALLET);
-      return saved ? JSON.parse(saved).provider || 'Phantom' : 'Phantom';
-    } catch {
-      return 'Phantom';
-    }
-  });
+  const [walletConnected, setWalletConnected] = useState<boolean>(false);
+  const [walletAddress, setWalletAddress] = useState<string>('');
+  const [walletProvider, setWalletProvider] = useState<string>('');
 
   const [walletBalanceSol, setWalletBalanceSol] = useState<number>(18.450);
 
@@ -418,66 +403,86 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     };
   }, [isMempoolStreaming]);
 
-  // Connect to real Phantom if available, or seamless Demo Phantom
-  const connectPhantom = async () => {
+  const connectWallet = async (providerName = 'Phantom'): Promise<boolean> => {
+    const walletWindow = typeof window !== 'undefined'
+      ? window as unknown as {
+          solana?: InjectedSolanaProvider;
+          phantom?: { solana?: InjectedSolanaProvider };
+          solflare?: InjectedSolanaProvider;
+          backpack?: InjectedSolanaProvider;
+        }
+      : undefined;
+
+    const providers: Record<string, InjectedSolanaProvider | undefined> = {
+      Phantom: walletWindow?.phantom?.solana
+        ?? (walletWindow?.solana?.isPhantom ? walletWindow.solana : undefined),
+      Solflare: walletWindow?.solflare?.isSolflare ? walletWindow.solflare : undefined,
+      Backpack: walletWindow?.backpack?.isBackpack ? walletWindow.backpack : undefined
+    };
+    const provider = providers[providerName];
+
+    if (!provider || typeof provider.connect !== 'function') {
+      addToast({
+        type: 'error',
+        title: `${providerName} Not Found`,
+        description: `Unable to detect the ${providerName} wallet. Install or unlock it, then try again.`
+      });
+      return false;
+    }
+
     try {
-      const anyWindow = typeof window !== 'undefined' ? (window as unknown as { solana?: { isPhantom?: boolean; connect: () => Promise<{ publicKey: { toString: () => string } }> }; phantom?: { solana?: { connect: () => Promise<{ publicKey: { toString: () => string } }> } } }) : undefined;
-      const provider = anyWindow?.phantom?.solana || anyWindow?.solana;
-
-      if (provider && typeof provider.connect === 'function') {
-        const resp = await provider.connect();
-        const pubKey = resp.publicKey.toString();
-        setWalletConnected(true);
-        setWalletAddress(pubKey);
-        setWalletProvider('Phantom');
-        addToast({
-          type: 'success',
-          title: 'Phantom Connected',
-          description: `Connected: ${formatSolAddress(pubKey, 6)} on Solana Mainnet`
-        });
-        return;
+      const response = await provider.connect();
+      const publicKey = response.publicKey?.toString();
+      if (!publicKey) {
+        throw new Error(`${providerName} did not return a wallet address.`);
       }
-    } catch (err) {
-      console.warn('Phantom connect error:', err);
-    }
 
-    // If extension is not injected or rejected, use demo Phantom wallet
-    const demoPhantomAddress = generateSolanaAddress('Phan');
-    setWalletConnected(true);
-    setWalletAddress(demoPhantomAddress);
-    setWalletProvider('Phantom');
-    addToast({
-      type: 'success',
-      title: 'Phantom Wallet Connected',
-      description: `Active on Solana Mainnet-Beta: ${formatSolAddress(demoPhantomAddress, 6)}`
-    });
+      setWalletConnected(true);
+      setWalletAddress(publicKey);
+      setWalletProvider(providerName);
+      addToast({
+        type: 'success',
+        title: `${providerName} Connected`,
+        description: `Connected: ${formatSolAddress(publicKey, 6)} on Solana Mainnet`
+      });
+      return true;
+    } catch (error) {
+      const description = error instanceof Error && error.message
+        ? error.message
+        : `Could not connect to ${providerName}. Please try again.`;
+      addToast({
+        type: 'error',
+        title: `${providerName} Connection Failed`,
+        description
+      });
+      return false;
+    }
   };
 
-  const connectWallet = async (providerName = 'Phantom') => {
-    if (providerName === 'Phantom') {
-      await connectPhantom();
-      return;
-    }
-
-    const newAddress = generateSolanaAddress(providerName.slice(0, 3));
-    setWalletConnected(true);
-    setWalletAddress(newAddress);
-    setWalletProvider(providerName);
-    addToast({
-      type: 'success',
-      title: 'Wallet Connected',
-      description: `Connected to ${providerName} on Solana Mainnet-Beta`
-    });
-  };
+  const connectPhantom = async (): Promise<boolean> => connectWallet('Phantom');
 
   const disconnectWallet = () => {
     try {
-      const anyWindow = typeof window !== 'undefined' ? (window as unknown as { solana?: { disconnect?: () => Promise<void> } }) : undefined;
-      anyWindow?.solana?.disconnect?.();
+      const walletWindow = typeof window !== 'undefined'
+        ? window as unknown as {
+            solana?: InjectedSolanaProvider;
+            phantom?: { solana?: InjectedSolanaProvider };
+            solflare?: InjectedSolanaProvider;
+            backpack?: InjectedSolanaProvider;
+          }
+        : undefined;
+      const provider = walletProvider === 'Phantom'
+        ? walletWindow?.phantom?.solana ?? walletWindow?.solana
+        : walletProvider === 'Solflare'
+          ? walletWindow?.solflare
+          : walletWindow?.backpack;
+      void provider?.disconnect?.();
     } catch (e) {
       console.warn(e);
     }
     setWalletConnected(false);
+    setWalletAddress('');
+    setWalletProvider('');
     addToast({
       type: 'info',
       title: 'Wallet Disconnected',

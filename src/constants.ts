@@ -12,7 +12,7 @@
 export const SOLANA_CONFIG = {
   NETWORK_NAME: 'Solana Mainnet-Beta',
   CLUSTER: 'mainnet-beta',
-  CHAIN_ID: 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp',
+  CHAIN_ID: 'solana:',
   RPC_ENDPOINT: 'https://api.mainnet-beta.solana.com',
   EXPLORER_BASE_URL: 'https://solscan.io',
   PUMP_FUN_BASE_URL: 'https://pump.fun',
@@ -26,22 +26,22 @@ export const SOLANA_CONFIG = {
 // ==========================================
 export const CONTRACT_ADDRESSES = {
   // $TAG Official Token Mint Address on Solana / pump.fun
-  TAG_TOKEN_MINT: 'coming soon...',
+  TAG_TOKEN_MINT: '4Vfxqw476tPWNjJ4WEGe8ZYcuLV4FJbjjrjdSezbpump',
 
   // TagPay Core Protocol Program ID (Solana Anchor / Native)
   TAGPAY_PROGRAM_ID: 'TagPay1111111111111111111111111111111111111',
 
   // pump.fun Official Bonding Curve Program ID
-  PUMP_FUN_PROGRAM_ID: 'coming soon',
+  PUMP_FUN_PROGRAM_ID: '4Vfxqw476tPWNjJ4WEGe8ZYcuLV4FJbjjrjdSezbpump',
 
   // pump.fun Global Fee Vault & Mint Authority
-  PUMP_FUN_FEE_VAULT: 'coming soon',
+  PUMP_FUN_FEE_VAULT: '4Vfxqw476tPWNjJ4WEGe8ZYcuLV4FJbjjrjdSezbpump',
 
   // TagPay Non-Custodial MPC Enclave Router & Buyback Vault (Solana PDA)
   TAGPAY_TREASURY_VAULT: 'TagVau1tXzW3kL9k4D5M7N8P9Q1R2S3T4U5V6W7X8Y9Z',
 
   // Raydium Liquidity Pool V4 Program ID (Graduation target from pump.fun)
-  RAYDIUM_AMM_PROGRAM_ID: 'coming soon',
+  RAYDIUM_AMM_PROGRAM_ID: '4Vfxqw476tPWNjJ4WEGe8ZYcuLV4FJbjjrjdSezbpump',
 
   // Wrapped SOL Native Mint
   WSOL_MINT: 'So11111111111111111111111111111111111111112',
@@ -87,7 +87,7 @@ export const SOCIAL_LINKS = {
 
   // Documentation & GitHub
   DOCS_URL: 'https://docs.tagpay.fun',
-  GITHUB_URL: 'https://github.com/tagpay-solana/tagpay-protocol',
+  GITHUB_URL: 'https://github.com',
 };
 
 // ==========================================

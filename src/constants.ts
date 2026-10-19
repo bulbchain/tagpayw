@@ -26,19 +26,19 @@ export const SOLANA_CONFIG = {
 // ==========================================
 export const CONTRACT_ADDRESSES = {
   // $TAG Official Token Mint Address on Solana / pump.fun
-  TAG_TOKEN_MINT: 'EAaJ2M3oevJuq5njNAVpKVwZLbUJetk2oDjuePk4pump',
+  TAG_TOKEN_MINT: '',
 
   // TagPay Core Protocol Program ID (Solana Anchor / Native)
   TAGPAY_PROGRAM_ID: 'TagPay1111111111111111111111111111111111111',
 
   // pump.fun Official Bonding Curve Program ID
-  PUMP_FUN_PROGRAM_ID: 'EAaJ2M3oevJuq5njNAVpKVwZLbUJetk2oDjuePk4pump',
+  PUMP_FUN_PROGRAM_ID: '',
 
   // pump.fun Global Fee Vault & Mint Authority
-  PUMP_FUN_FEE_VAULT: 'EAaJ2M3oevJuq5njNAVpKVwZLbUJetk2oDjuePk4pump',
+  PUMP_FUN_FEE_VAULT: '',
 
   // TagPay Non-Custodial MPC Enclave Router & Buyback Vault (Solana PDA)
-  TAGPAY_TREASURY_VAULT: 'TagVau1tEAaJ2M3oevJuq5njNAVpKVwZLbUJetk2oDjuePk4pump',
+  TAGPAY_TREASURY_VAULT: 'TagVau1t',
 
   // Raydium Liquidity Pool V4 Program ID (Graduation target from pump.fun)
   RAYDIUM_AMM_PROGRAM_ID: 'coming  soon',
@@ -47,7 +47,7 @@ export const CONTRACT_ADDRESSES = {
   WSOL_MINT: 'So11111111111111111111111111111111111111112',
 
   // Official Solana USDC Mint
-  USDC_MINT: 'EAaJ2M3oevJuq5njNAVpKVwZLbUJetk2oDjuePk4pump',
+  USDC_MINT: '',
 };
 
 // Alias export for backward compatibility & easy shorthand

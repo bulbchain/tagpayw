@@ -26,22 +26,22 @@ export const SOLANA_CONFIG = {
 // ==========================================
 export const CONTRACT_ADDRESSES = {
   // $TAG Official Token Mint Address on Solana / pump.fun
-  TAG_TOKEN_MINT: '',
+  TAG_TOKEN_MINT: 'Gkw7AFre697Rv8CXDhzDBm1AVroTDDxm95dfUz6Npump',
 
   // TagPay Core Protocol Program ID (Solana Anchor / Native)
   TAGPAY_PROGRAM_ID: 'TagPay1111111111111111111111111111111111111',
 
   // pump.fun Official Bonding Curve Program ID
-  PUMP_FUN_PROGRAM_ID: '',
+  PUMP_FUN_PROGRAM_ID: 'Gkw7AFre697Rv8CXDhzDBm1AVroTDDxm95dfUz6Npump',
 
   // pump.fun Global Fee Vault & Mint Authority
-  PUMP_FUN_FEE_VAULT: '',
+  PUMP_FUN_FEE_VAULT: 'Gkw7AFre697Rv8CXDhzDBm1AVroTDDxm95dfUz6Npump',
 
   // TagPay Non-Custodial MPC Enclave Router & Buyback Vault (Solana PDA)
-  TAGPAY_TREASURY_VAULT: 'TagVau1t',
+  TAGPAY_TREASURY_VAULT: 'TagVau1tGkw7AFre697Rv8CXDhzDBm1AVroTDDxm95dfUz6Npump',
 
   // Raydium Liquidity Pool V4 Program ID (Graduation target from pump.fun)
-  RAYDIUM_AMM_PROGRAM_ID: 'coming  soon',
+  RAYDIUM_AMM_PROGRAM_ID: 'Gkw7AFre697Rv8CXDhzDBm1AVroTDDxm95dfUz6Npump',
 
   // Wrapped SOL Native Mint
   WSOL_MINT: 'So11111111111111111111111111111111111111112',

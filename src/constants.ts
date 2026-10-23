@@ -32,16 +32,16 @@ export const CONTRACT_ADDRESSES = {
   TAGPAY_PROGRAM_ID: 'TagPay1111111111111111111111111111111111111',
 
   // pump.fun Official Bonding Curve Program ID
-  PUMP_FUN_PROGRAM_ID: 'Gkw7AFre697Rv8CXDhzDBm1AVroTDDxm95dfUz6Npump',
+  PUMP_FUN_PROGRAM_ID: '',
 
   // pump.fun Global Fee Vault & Mint Authority
-  PUMP_FUN_FEE_VAULT: 'Gkw7AFre697Rv8CXDhzDBm1AVroTDDxm95dfUz6Npump',
+  PUMP_FUN_FEE_VAULT: '',
 
   // TagPay Non-Custodial MPC Enclave Router & Buyback Vault (Solana PDA)
-  TAGPAY_TREASURY_VAULT: 'TagVau1tGkw7AFre697Rv8CXDhzDBm1AVroTDDxm95dfUz6Npump',
+  TAGPAY_TREASURY_VAULT: 'TagVau1t',
 
   // Raydium Liquidity Pool V4 Program ID (Graduation target from pump.fun)
-  RAYDIUM_AMM_PROGRAM_ID: 'Gkw7AFre697Rv8CXDhzDBm1AVroTDDxm95dfUz6Npump',
+  RAYDIUM_AMM_PROGRAM_ID: '',
 
   // Wrapped SOL Native Mint
   WSOL_MINT: 'So11111111111111111111111111111111111111112',
